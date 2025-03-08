@@ -46,7 +46,7 @@ touch /etc/traefik/acme.json
 chmod 600 /etc/traefik/acme.json
 ~~~
 ~~~sh
-nano /etc/traefik/traefik.yml
+nano /etc/traefik/traefik.yaml
 ~~~
 Paste the Traefik configuration (check Traefik Configuration file).
 
