@@ -1,4 +1,3 @@
-
 # Complete Setup Guide: Traefik + Cloudflare Tunnel on Proxmox LXC
 
 This repository contains configuration files and setup instructions for deploying Traefik Reverse Proxy with Cloudflare Tunnel on Proxmox LXC containers. This setup provides a secure way to expose your services to the internet without opening any ports on your firewall.
@@ -24,7 +23,7 @@ Proxmox VE server 8+
 
 You can use for lxc templates https://community-scripts.github.io/ProxmoxVE/
 
-### Set Up Traefik LXC : https://community-scripts.github.io/ProxmoxVE/scripts?id=traefik
+#### Set Up Traefik LXC : https://community-scripts.github.io/ProxmoxVE/scripts?id=traefik
 ~~~sh
 bash -c "$(wget -qLO - https://github.com/community-scripts/ProxmoxVE/raw/main/ct/traefik.sh)"
 ~~~
@@ -106,7 +105,7 @@ Replace the:
 (crontab -l 2>/dev/null; echo "*/5 * * * * /usr/bin/python3 /opt/scripts/traefik-dns.py") | crontab -
 ~~~
 ***
-### Set Up Cloudflared LXC : https://community-scripts.github.io/ProxmoxVE/scripts?id=cloudflared
+#### Set Up Cloudflared LXC : https://community-scripts.github.io/ProxmoxVE/scripts?id=cloudflared
 ~~~sh
 bash -c "$(wget -qLO - https://github.com/community-scripts/ProxmoxVE/raw/main/ct/cloudflared.sh)"
 ~~~
@@ -167,6 +166,17 @@ systemctl start cloudflared
 # Route DNS through the tunnel
 cloudflared tunnel route dns $TUNNEL_ID example.com
 cloudflared tunnel route dns $TUNNEL_ID "*.example.com"
+~~~
+
+#### Copy the credentials file to the expected location:
+~~~sh
+# Replace TUNNEL_ID with your actual tunnel ID from the find command
+cp /root/.cloudflared/TUNNEL_ID.json /etc/cloudflared/credentials.json
+~~~
+
+#### Restart the service:
+~~~sh
+systemctl restart cloudflared
 ~~~
 
 ## Running the tests
@@ -252,7 +262,7 @@ http:
    tail -f /var/log/traefik-dns.log
    ```
 
-# Common Issues
+### Common Issues
 
 - **Cloudflare Tunnel not connecting:**  
   Check that the Tunnel credentials file exists and has proper permissions.
@@ -263,7 +273,7 @@ http:
 - **Services not accessible:**  
   Verify that the Traefik configuration is correct and that the backend service is running.
 
-# Security Considerations
+### Security Considerations
 
 - Secure the Traefik dashboard with strong authentication.
 - Regularly update both containers.
@@ -279,11 +289,59 @@ This setup provides:
 - Traffic tunneled through Cloudflare's network
 
 All requests to your services now flow through Cloudflare's network and are protected by their security features.
-```
 
+# BONUS N8N LXC with Traefik Proxy
+#### Set Up Cloudflared LXC : https://community-scripts.github.io/ProxmoxVE/scripts?id=n8n
+~~~sh
+bash -c "$(wget -qLO - https://github.com/community-scripts/ProxmoxVE/raw/main/ct/n8n.sh)"
+~~~
 
+When setup is finished open the console or ssh to n8n LXC : 
+~~~sh
+nano /etc/systemd/system/n8n.service 
+~~~
+~~~sh
+[Unit]
+Description=n8n
 
-## Authors
+[Service]
+Type=simple
+Environment="N8N_SECURE_COOKIE=false"
+Environment="N8N_HOST=0.0.0.0"
+Environment="N8N_PORT=5678"
+Environment="N8N_PROTOCOL=http"
+Environment="NODE_ENV=production"
+Environment="WEBHOOK_URL=https://n8n.example.com"
+Environment="N8N_PATH=/"
+Environment="N8N_LISTEN_ADDRESS=0.0.0.0"
+Environment="N8N_SKIP_WEBHOOK_DEREGISTRATION_SHUTDOWN=true"
+Environment="N8N_DIAGNOSTICS_ENABLED=false"
+Environment="N8N_USER_FOLDER=/home/n8n/.n8n"
+Environment="GENERIC_TIMEZONE=Europe/Istanbul"
+Environment="N8N_RUNNERS_ENABLED=true"
+ExecStart=n8n start
 
-- IT Professional - [SFN](https://github.com/sfnemis)
+[Install]
+WantedBy=multi-user.target
+~~~
+
+Replace **Environment="WEBHOOK_URL=https://n8n.example.com"** with your domain and save it!
+
+~~~sh
+systemctl daemon-reload 
+systemctl restart n8n
+~~~
+***
+## TRAEFIK REVERSE PROXY N8N LXC YML
+
+Console or ssh to Traefik LXC:
+
+1. Create a new YAML file in /etc/traefik/dynamic/ directory
+Paste the Cloudflare configuration (check n8n YAML File) and replace with **your domain and save it!**
+
+2. Trigger DNS Creation
+~~~sh
+# Run DNS script manually
+python3 /opt/scripts/traefik-dns.py
+~~~
 
