@@ -55,7 +55,14 @@ Paste the Traefik configuration (check Traefik Configuration file).
 nano /etc/traefik/dynamic/fileConfig.yml
 ~~~
 Paste the fileConfig.yml (check Dynamic Configuration file).
+Inside the fileConfig.yml do not forget password to change to yours;
+~~~sh
+# Install apache2-utils if not already installed
+apt-get install apache2-utils -y
 
+# Generate the password hash (BCrypt format, which is more secure)
+htpasswd -nbB admin yourpassword
+~~~
 - Create Traefik Service:
 
 ~~~sh
@@ -297,7 +304,7 @@ This setup provides:
 All requests to your services now flow through Cloudflare's network and are protected by their security features.
 
 # BONUS N8N LXC with Traefik Proxy
-#### Set Up Cloudflared LXC : https://community-scripts.github.io/ProxmoxVE/scripts?id=n8n
+#### Set Up n8n LXC : https://community-scripts.github.io/ProxmoxVE/scripts?id=n8n
 ~~~sh
 bash -c "$(wget -qLO - https://github.com/community-scripts/ProxmoxVE/raw/main/ct/n8n.sh)"
 ~~~
