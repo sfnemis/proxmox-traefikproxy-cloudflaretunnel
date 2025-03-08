@@ -1,7 +1,13 @@
 # Complete Setup Guide: Traefik + Cloudflare Tunnel on Proxmox LXC
 
 This repository contains configuration files and setup instructions for deploying Traefik Reverse Proxy with Cloudflare Tunnel on Proxmox LXC containers. This setup provides a secure way to expose your services to the internet without opening any ports on your firewall.
-Features
+
+### Features
+* Traefik Reverse Proxy running in a Proxmox LXC container
+* Cloudflare Tunnel for secure connectivity without exposing ports 80/443
+* Automatic DNS record creation in Cloudflare for new services
+* Example configuration for n8n workflow automation
+* Comprehensive security with HTTP headers and Cloudflare's protection
 
 ## Getting Started
 
