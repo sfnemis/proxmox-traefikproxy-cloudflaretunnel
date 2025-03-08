@@ -115,7 +115,7 @@ Replace the:
 **Add a cron job:**
 ~~~sh
 # Add to crontab
-(crontab -l 2>/dev/null; echo "*/5 * * * * /usr/bin/python3 /opt/scripts/traefik-dns.py") | crontab -
+(crontab -l 2>/dev/null; echo "*/2 * * * * /usr/bin/python3 /opt/scripts/traefik-dns.py >> /var/log/traefik-dns.log 2>&1") | crontab -
 ~~~
 ***
 #### Set Up Cloudflared LXC : https://community-scripts.github.io/ProxmoxVE/scripts?id=cloudflared
