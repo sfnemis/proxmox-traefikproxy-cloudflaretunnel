@@ -70,7 +70,7 @@ After=network-online.target
 Type=simple
 User=root
 Group=root
-ExecStart=/usr/local/bin/traefik --configfile=/etc/traefik/traefik.yml
+ExecStart=/usr/bin/traefik --configfile=/etc/traefik/traefik.yml
 Restart=on-failure
 
 [Install]
