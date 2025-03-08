@@ -1,0 +1,29 @@
+http:
+  middlewares:
+    n8n-headers:
+      headers:
+        browserXSSFilter: true
+        contentTypeNosniff: true
+        forceSTSHeader: true
+        stsIncludeSubdomains: true
+        stsPreload: true
+        stsSeconds: 315360000
+        customRequestHeaders:
+          X-Forwarded-Proto: "https"
+          X-Forwarded-Host: "n8n.example.com"
+          X-Forwarded-For: "true"
+    
+  routers:
+    n8n:
+      rule: "Host(`n8n.xsg.com.tr`)"
+      service: "n8n"
+      middlewares:
+        - n8n-headers
+  
+  services:
+    n8n:
+      loadBalancer:
+        passHostHeader: true
+        servers:
+          - url: "http://n8n-lxc-ip:5678" ##Replace your n8n-lxc-ip
+
