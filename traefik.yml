@@ -1,0 +1,63 @@
+# Traefik global configuration
+global:
+  checkNewVersion: true
+  sendAnonymousUsage: false
+
+# Enable traefik ui dashboard
+api:
+  dashboard: true
+  insecure: true  # Consider securing this in production
+
+# Log level INFO|DEBUG|ERROR
+log:
+  level: INFO
+  filePath: "/var/log/traefik/traefik.log"
+
+# Configuring access logs
+accessLog:
+  filePath: "/var/log/traefik/access.log"
+  format: json
+  filters:
+    statusCodes:
+      - "200-299" # log successful http requests
+      - "400-599" # log failed http requests
+  # collect logs as in-memory buffer before writing into log file
+  bufferingSize: 0
+  fields:
+    headers:
+      defaultMode: drop # drop all headers per default
+      names:
+          User-Agent: keep # log user agent strings
+
+# The setting below is to allow insecure backend connections
+serverTransport:
+  insecureSkipVerify: true
+
+# Traefik entrypoints (network ports) configuration
+# Note: These ports are NOT exposed to the internet, only to Cloudflare Tunnel
+entryPoints:
+  http:
+    address: :80
+  https:
+    address: :443
+
+providers:
+  providersThrottleDuration: 2s
+
+  # File provider for defining services and middleware
+  file:
+    directory: "/etc/traefik/dynamic"
+    watch: true
+
+# Optional: Certificates resolver for internal services or development
+certificatesResolvers:
+  internal:
+    acme:
+      email: example@example.com
+      storage: /etc/traefik/acme.json
+      caServer: "https://acme-staging-v02.api.letsencrypt.org/directory"  # Use staging for testing
+      dnsChallenge:
+        provider: cloudflare
+        resolvers:
+          - "1.1.1.1:53"
+          - "1.0.0.1:53"
