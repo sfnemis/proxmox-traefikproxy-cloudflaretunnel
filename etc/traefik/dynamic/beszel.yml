@@ -1,0 +1,25 @@
+http:
+  routers:
+    beszel:
+      rule: "Host(`beszel.example.com`)" # Change with your domain
+      service: "beszel"
+      middlewares:
+        - websocket-headers
+  
+  services:
+    beszel:
+      loadBalancer:
+        passHostHeader: true
+        servers:
+          - url: "http://192.168.xx.xx:8090" # Change with your lxc ip
+  
+  middlewares:
+    websocket-headers:
+      headers:
+        customRequestHeaders:
+          X-Forwarded-Proto: "https"
+        customResponseHeaders:
+          Connection: "keep-alive"
+          Access-Control-Allow-Origin: "*"
+          Access-Control-Allow-Methods: "GET, PUT, POST, DELETE, OPTIONS"
+          Access-Control-Allow-Headers: "Origin, X-Requested-With, Content-Type, Accept, Authorization"
