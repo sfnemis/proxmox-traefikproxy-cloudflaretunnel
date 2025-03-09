@@ -1,0 +1,12 @@
+http:
+  routers:
+    myspeed:
+      rule: "Host(`spd.example.com`)" #Change your domain
+      service: "myspeed"
+  
+  services:
+    myspeed:
+      loadBalancer:
+        passHostHeader: true
+        servers:
+          - url: "http://192.168.xx.xx:5216" #Change your lxc ip
