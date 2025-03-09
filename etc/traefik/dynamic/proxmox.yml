@@ -1,0 +1,18 @@
+http:
+  routers:
+    proxmox:
+      rule: "Host(`pve.example.com`)" # Change with your domain
+      service: "proxmox"
+  
+  services:
+    proxmox:
+      loadBalancer:
+        passHostHeader: true
+        serversTransport: "proxmox-transport"
+        servers:
+          - url: "https://192.168.xx.xx:8006" # Change with your lxc ip
+  
+  serversTransports:
+    proxmox-transport:
+      insecureSkipVerify: true
+      serverName: "pve.example.com" # Change with your domain, becareful in here i am using cloudflare dns challenge proxmox SSL certificate
