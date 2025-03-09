@@ -350,7 +350,7 @@ Environment="N8N_HOST=0.0.0.0"
 Environment="N8N_PORT=5678"
 Environment="N8N_PROTOCOL=http"
 Environment="NODE_ENV=production"
-Environment="WEBHOOK_URL=https://n8n.ofhome.cloud"
+Environment="WEBHOOK_URL=https://n8n.example.com"
 Environment="N8N_PATH=/"
 Environment="N8N_LISTEN_ADDRESS=0.0.0.0"
 Environment="N8N_SKIP_WEBHOOK_DEREGISTRATION_SHUTDOWN=true"
@@ -360,7 +360,7 @@ Environment="GENERIC_TIMEZONE=Europe/Istanbul"
 Environment="N8N_RUNNERS_ENABLED=true"
 Environment="WEBHOOK_VERIFY_CHECK_INTERVAL=2000"
 Environment="WEBHOOK_VERIFY_RETRY_COUNT=6"
-Environment="WEBHOOK_TUNNEL_URL=https://n8n.ofhome.cloud"
+Environment="WEBHOOK_TUNNEL_URL=https://n8n.example.com"
 ExecStart=n8n start
 
 [Install]
