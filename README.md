@@ -25,6 +25,32 @@ Proxmox VE server 8+
 - Cloudflare API Token with Zone:DNS:Edit permissions
 - Cloudflare Zero Trust account (free tier is sufficient)
 
+### Folder Structure
+```plaintext
+/
+├── traefik/
+│   ├── etc/
+│   │   ├── traefik/
+│   │   │   ├── traefik.yml              # /etc/traefik/traefik.yml
+│   │   │   └── dynamic/
+│   │   │       ├── fileConfig.yml       # /etc/traefik/dynamic/fileConfig.yml
+│   │   │       ├── n8n.yml              # /etc/traefik/dynamic/n8n.yml
+│   │   │       ├── homeassistant.yml    # /etc/traefik/dynamic/homeassistant.yml
+│   │   │       └── other-services.yml   # /etc/traefik/dynamic/other-services.yml
+│   │   └── systemd/
+│   │       └── system/
+│   │           └── traefik.service      # /etc/systemd/system/traefik.service
+│   └── opt/
+│       └── scripts/
+│           └── traefik-dns.py           # /opt/scripts/traefik-dns.py
+└── cloudflared/
+    ├── etc/
+    │   ├── cloudflared/
+    │   │   └── config.yml               # /etc/cloudflared/config.yml
+    │   └── systemd/
+    │       └── system/
+    │           └── cloudflared.service  # /etc/systemd/system/cloudflared.service
+```
 ### Installing
 
 You can use for lxc templates https://community-scripts.github.io/ProxmoxVE/
