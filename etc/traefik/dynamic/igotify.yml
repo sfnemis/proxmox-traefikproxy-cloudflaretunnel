@@ -1,0 +1,12 @@
+http:
+  routers:
+    igotify:
+      rule: "Host(`igtf.example.com`)" # Change your domain
+      service: "igotify"
+  
+  services:
+    igotify:
+      loadBalancer:
+        passHostHeader: true
+        servers:
+          - url: "http://192.168.xx.xx:8681" # Change your lxc ip
