@@ -1,0 +1,12 @@
+http:
+  routers:
+    gotify:
+      rule: "Host(`gtf.example.com`)" # Change your domain
+      service: "gotify"
+  
+  services:
+    gotify:
+      loadBalancer:
+        passHostHeader: true
+        servers:
+          - url: "http://192.168.xx.xx:8680" # Change your lxc ip
