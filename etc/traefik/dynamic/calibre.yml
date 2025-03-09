@@ -1,0 +1,12 @@
+http:
+  routers:
+    calibre:
+      rule: "Host(`calibre.example.com`)" # Change your domain
+      service: "calibre"
+  
+  services:
+    calibre:
+      loadBalancer:
+        passHostHeader: true
+        servers:
+          - url: "http://192.168.xx.xx:8083" # Change your lxc ip
