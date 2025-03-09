@@ -10,20 +10,43 @@ http:
         stsSeconds: 315360000
         customRequestHeaders:
           X-Forwarded-Proto: "https"
-          X-Forwarded-Host: "n8n.example.com"
-          X-Forwarded-For: "true"
+          X-Forwarded-Host: "n8n.example.com" # Change n8n domain with yours
     
+    # Very permissive headers for webhooks
+    webhook-headers:
+      headers:
+        accessControlAllowMethods:
+          - GET
+          - POST
+          - PUT
+          - DELETE
+          - OPTIONS
+        accessControlAllowOriginList:
+          - "*"
+        accessControlAllowHeaders:
+          - "*"
+        accessControlMaxAge: 100
+        addVaryHeader: true
+  
   routers:
+    # Main n8n router
     n8n:
-      rule: "Host(`n8n.xsg.com.tr`)"
+      rule: "Host(`n8n.example.com`) && !PathPrefix(`/webhook`)" # Change n8n domain with yours
       service: "n8n"
       middlewares:
         - n8n-headers
+    
+    # Dedicated webhook router with minimal restrictions
+    n8n-webhook:
+      rule: "Host(`n8n.example.com`) && PathPrefix(`/webhook`)" # Change n8n domain with yours
+      priority: 100
+      service: "n8n"
+      middlewares:
+        - webhook-headers
   
   services:
     n8n:
       loadBalancer:
         passHostHeader: true
         servers:
-          - url: "http://n8n-lxc-ip:5678" ##Replace your n8n-lxc-ip
-
+          - url: "http://n8n-lxc-ip:5678" # Change the n8n ip address of yours
