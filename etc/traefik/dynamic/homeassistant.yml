@@ -1,0 +1,18 @@
+http:
+  routers:
+    homeassistant:
+      rule: "Host(`ha.example.com`)" #change your domain
+      service: "homeassistant"
+  
+  services:
+    homeassistant:
+      loadBalancer:
+        passHostHeader: true
+        servers:
+          - url: "http://192.168.xx.xx:8123" #change your lxc ip
+  
+  middlewares:
+    homeassistant-headers:
+      headers:
+        customRequestHeaders:
+          X-Forwarded-Proto: "https"
