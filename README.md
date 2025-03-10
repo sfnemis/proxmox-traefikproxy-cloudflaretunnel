@@ -379,7 +379,7 @@ systemctl restart n8n
 Console or ssh to Traefik LXC:
 
 1. Create a new YAML file in /etc/traefik/dynamic/ directory
-Paste the Cloudflare configuration (check n8n YAML File) and replace with **your domain and save it!**
+Paste the n8n configuration (check n8n YAML File) and replace with **your domain and save it!**
 
 2. Trigger DNS Creation
 ~~~sh
