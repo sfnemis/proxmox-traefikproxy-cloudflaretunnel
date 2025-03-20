@@ -1,24 +1,24 @@
 http:
   routers:
     igotify-secure:
-      rule: "Host(`igtf.example.com`)" ##Change your domain
+      rule: "Host(`igtf.example.com`)" # Change your domain
       service: "igotify"
       entryPoints:
-        - "websecure"
-      middlewares:
-        - "default@file"
+        - "https"  
       tls: 
         certResolver: "http_resolver"
     
     igotify:
-      rule: "Host(`igtf.example.com`)" ##Change your domain
+      rule: "Host(`igtf.example.com`)" # Change your domain
       service: "igotify"
       entryPoints:
-        - "web"
+        - "http"  
   
   services:
     igotify:
       loadBalancer:
         passHostHeader: true
         servers:
-          - url: "http://192.168.xx.xx:8681" ##Change your ip address 
+          - url: "http://192.168.xx.xx:8681" # Change your lxc IP address 
+
+
