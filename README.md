@@ -204,7 +204,7 @@ echo "Tunnel ID: $TUNNEL_ID"
 nano /etc/cloudflared/config.yml
 ~~~
 
-Paste the Cloudflare configuration (check Cloudflare Tunnel Configuration) and replace:
+Paste the Cloudflare configuration (check [Cloudflare Tunnel Configuration](https://github.com/sfnemis/proxmox-traefikproxy-cloudflaretunnel/blob/main/etc/cloudflared/config.yml)) and replace:
 
 - `TUNNEL_ID` with **your tunnel ID**
 - `TRAEFIK_IP` with the **IP of your Traefik container**
