@@ -261,6 +261,8 @@ systemctl start cloudflared
 
 #### Create DNS entries for the tunnel:
 
+Replace "example.com" with your domain name
+
 ~~~sh
 # Route DNS through the tunnel
 cloudflared tunnel route dns $TUNNEL_ID example.com
@@ -285,6 +287,8 @@ systemctl restart cloudflared
 ### Add a Test Service to Traefik
 
 SSH into the Traefik container:
+
+Replace "example.com" with your domain name
 
 ~~~sh
 # Create test service
