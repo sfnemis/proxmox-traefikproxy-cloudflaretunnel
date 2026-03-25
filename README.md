@@ -150,6 +150,15 @@ systemctl enable traefik
 systemctl start traefik
 ~~~
 
+### Create a Cloudflare API token
+Create a Cloudflare API token for DNS automation.
+The token only needs permission to edit DNS records.
+
+Required permission:
+- Zone → DNS → Edit
+
+It is recommended to restrict the token to your specific zone (domain) for security.
+
 ### Set Up DNS Automation Script
 
 ~~~sh
