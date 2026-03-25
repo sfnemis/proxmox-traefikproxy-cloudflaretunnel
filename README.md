@@ -115,6 +115,10 @@ read -p "Enter username: " USER && read -s -p "Enter password: " PASS && echo &&
 ~~~
 
 #### Download the Traefik configuration setup script:
+This script automatically generates Traefik configuration files based on your domain and services.
+For more details, please see [Adding Services](#adding-services)
+
+You can review the script before executing it for security.
 
 ~~~sh
 wget -O ~/generate-traefik-config.sh https://raw.githubusercontent.com/W7SVT/proxmox-traefikproxy-cloudflaretunnel/refs/heads/main/generate-traefik-config.sh
