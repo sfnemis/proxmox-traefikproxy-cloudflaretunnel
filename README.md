@@ -182,6 +182,7 @@ nano /opt/scripts/traefik-dns.py
 Replace the following variables:
 
 - `CF_API_TOKEN` with **your Cloudflare API token**
+  - see [Prerequisites](#Prerequisites) and [Create a Cloudflare API token](#create-a-cloudflare-api-token)
 - `ZONE_ID` with **your Cloudflare zone ID**
 - `BASE_DOMAIN` with **your domain**
 
