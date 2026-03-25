@@ -104,7 +104,11 @@ read -p "Enter your Cloudflare email: " EMAIL && sed -i "s/example@example.com/$
 ~~~
 
 #### Create the dynamic configuration and set basic auth credentials:
+Create the dynamic configuration file and set up basic authentication credentials.
 
+You will be asked to enter a username and password.  
+These credentials are used to protect access to the Traefik dashboard.  
+Please choose any username and a strong password you want to use.
 ~~~sh
 wget -O /etc/traefik/dynamic/fileConfig.yml https://github.com/sfnemis/proxmox-traefikproxy-cloudflaretunnel/raw/main/etc/traefik/dynamic/fileConfig.yml
 read -p "Enter username: " USER && read -s -p "Enter password: " PASS && echo && HASH=$(htpasswd -nbB "$USER" "$PASS") && sed -i "s|admin:.*|$HASH|" /etc/traefik/dynamic/fileConfig.yml
