@@ -109,8 +109,13 @@ read -p "Enter your Cloudflare email: " EMAIL && sed -i "s/example@example.com/$
 wget -O /etc/traefik/dynamic/fileConfig.yml https://github.com/sfnemis/proxmox-traefikproxy-cloudflaretunnel/raw/main/etc/traefik/dynamic/fileConfig.yml
 read -p "Enter username: " USER && read -s -p "Enter password: " PASS && echo && HASH=$(htpasswd -nbB "$USER" "$PASS") && sed -i "s|admin:.*|$HASH|" /etc/traefik/dynamic/fileConfig.yml
 ~~~
+
+#### Download the Traefik configuration setup script:
+
+~~~sh
 wget -O ~/generate-traefik-config.sh https://raw.githubusercontent.com/W7SVT/proxmox-traefikproxy-cloudflaretunnel/refs/heads/main/generate-traefik-config.sh
 chmod +x generate-traefik-config.sh
+~~~
 
 > After completing these steps, ensure your Traefik service is restarted or reloaded so it picks up the new configuration.
 
