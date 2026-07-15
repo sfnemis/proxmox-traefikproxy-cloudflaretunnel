@@ -104,13 +104,26 @@ read -p "Enter your Cloudflare email: " EMAIL && sed -i "s/example@example.com/$
 ~~~
 
 #### Create the dynamic configuration and set basic auth credentials:
+Create the dynamic configuration file and set up basic authentication credentials.
 
+You will be asked to enter a username and password.  
+These credentials are used to protect access to the Traefik dashboard.  
+Please choose any username and a strong password you want to use.
 ~~~sh
 wget -O /etc/traefik/dynamic/fileConfig.yml https://github.com/sfnemis/proxmox-traefikproxy-cloudflaretunnel/raw/main/etc/traefik/dynamic/fileConfig.yml
 read -p "Enter username: " USER && read -s -p "Enter password: " PASS && echo && HASH=$(htpasswd -nbB "$USER" "$PASS") && sed -i "s|admin:.*|$HASH|" /etc/traefik/dynamic/fileConfig.yml
 ~~~
+
+#### Download the Traefik configuration setup script:
+This script automatically generates Traefik configuration files based on your domain and services.
+For more details, please see [Adding Services](#adding-services)
+
+You can review the script before executing it for security.
+
+~~~sh
 wget -O ~/generate-traefik-config.sh https://raw.githubusercontent.com/W7SVT/proxmox-traefikproxy-cloudflaretunnel/refs/heads/main/generate-traefik-config.sh
 chmod +x generate-traefik-config.sh
+~~~
 
 > After completing these steps, ensure your Traefik service is restarted or reloaded so it picks up the new configuration.
 
@@ -141,6 +154,15 @@ systemctl enable traefik
 systemctl start traefik
 ~~~
 
+### Create a Cloudflare API token
+Create a Cloudflare API token for DNS automation.
+The token only needs permission to edit DNS records.
+
+Required permission:
+- Zone → DNS → Edit
+
+It is recommended to restrict the token to your specific zone (domain) for security.
+
 ### Set Up DNS Automation Script
 
 ~~~sh
@@ -160,6 +182,7 @@ nano /opt/scripts/traefik-dns.py
 Replace the following variables:
 
 - `CF_API_TOKEN` with **your Cloudflare API token**
+  - see [Prerequisites](#Prerequisites) and [Create a Cloudflare API token](#create-a-cloudflare-api-token)
 - `ZONE_ID` with **your Cloudflare zone ID**
 - `BASE_DOMAIN` with **your domain**
 
@@ -238,6 +261,8 @@ systemctl start cloudflared
 
 #### Create DNS entries for the tunnel:
 
+Replace "example.com" with your domain name
+
 ~~~sh
 # Route DNS through the tunnel
 cloudflared tunnel route dns $TUNNEL_ID example.com
@@ -262,6 +287,8 @@ systemctl restart cloudflared
 ### Add a Test Service to Traefik
 
 SSH into the Traefik container:
+
+Replace "example.com" with your domain name
 
 ~~~sh
 # Create test service
